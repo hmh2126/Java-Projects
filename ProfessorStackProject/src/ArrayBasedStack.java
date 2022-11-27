@@ -11,9 +11,9 @@ public class ArrayBasedStack<T> implements StackInterface<T> {
 	}
 
 //overloaded constructor
-	public ArrayBasedStack(int sizeOfStack) {
+	public ArrayBasedStack(int size) {
 		top = -1;
-		stack = (T[]) new Object[sizeOfStack];
+		stack = (T[]) new Object[size];
 	}
 
 	@Override
@@ -26,6 +26,19 @@ public class ArrayBasedStack<T> implements StackInterface<T> {
 			throw new StackFullException("Push cannot be done on a full Stack!");
 	}
 
+	@Override
+	public void push(T item1, T item2) throws StackFullException{					 
+		if(top < stack.length-2) {
+			top++;
+			stack[top] = item1;
+			top++;
+			stack[top] = item2;
+		}
+		else {
+			throw new StackFullException("There is not enough space for two more items");
+		}
+	}
+
 	
 	@Override
 	public void pop() throws StackEmptyException {
@@ -36,6 +49,19 @@ public class ArrayBasedStack<T> implements StackInterface<T> {
 		else 
 			throw new StackEmptyException("Pop cannot be done on an empty Stack!");
 	}
+	
+	@Override
+	public void doublePop() throws StackEmptyException{
+		if(top > 0) {
+			stack[top] = null;
+			top--;
+			stack[top] = null;
+			top--;
+		}
+		else
+			throw new StackEmptyException("Double pop cannot be done because there are less than two items in the stack ");
+	}
+
 
 	@Override
 	public T top() throws StackEmptyException {
